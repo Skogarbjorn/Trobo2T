@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0" prefWidth="329.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+  <header>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+      <Label text="Please input your name" />
+  </header>
+  <content>
+    <HBox minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" spacing="20.0">
+         <children>
+             <Label text="Name:" />
+             <TextField fx:id="fxUsernameInput"/>
+         </children></HBox>
+  </content>
+    <ButtonType buttonData="OK_DONE" text="Sign in" />
+    <ButtonType buttonData="CANCEL_CLOSE" text="Cancel" />
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</DialogPane>

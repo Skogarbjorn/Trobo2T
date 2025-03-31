@@ -1,21 +1,27 @@
 package lib;
 
-import java.io.IOException;
-import javafx.fxml.FXML;
-import javafx.event.ActionEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.control.Button;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Statement;
 
+import services.Services;
 
 public class Read {
 	private Connection conn;
+	private Statement stmt;
+	private Services s;
 
-	public Read(String PATH) throws SQLException {
-		this.conn = DriverManager.getConnection("jdbc:sqlite:" + PATH);
+	public Read(Services s) {
+		try {
+			this.conn = DriverManager.getConnection(
+					"jdbc:sqlite:" + getClass().getResource("/data/" + s.getDbName()).toString());
+			this.stmt = conn.createStatement();
+		} catch (SQLException e) {
+			System.err.println("Error trying to connect to database:");
+			e.printStackTrace();
+		}
 	}
 
 	public Connection getConn() {
@@ -26,7 +32,14 @@ public class Read {
 		this.conn = conn;
 	}
 
-	public ResultSet readAvailable() {
+	public ResultSet readAll() {
+		try {
+			ResultSet rs = stmt.executeQuery("SELECT * FROM " + s.getMainTable());
+			return rs;
+		} catch (SQLException e) {
+			System.err.println(e);
+			return null;
+		}
 	}
 }
 
