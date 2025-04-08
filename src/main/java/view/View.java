@@ -1,8 +1,8 @@
 package view;
 
 public enum View {
-    MAIN("main-view.fxml"),
-    LOGIN("album-view.fxml");
+    MAIN("primary.fxml"),
+    LOGIN("login-view.fxml");
 
     private String view;
 

@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import daytrips.Daytrip;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import lib.SearchResultWrapper;
 
@@ -73,6 +77,20 @@ public class PrimaryController {
 			System.out.println("DAYTRIP: " + thing);
 		});
 	}
+
+
+    @FXML
+    private void handleGoToTravelApp() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/travel-app.fxml"));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Travel Booking");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	@FXML
 	private void handleUserProperties() {

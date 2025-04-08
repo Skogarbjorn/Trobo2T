@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.example.TravelAppController" 
+      style="-fx-padding: 20; -fx-spacing: 10;">
+    
+    <TabPane>
+        <tabs>
+            <Tab text="Flights">
+                <VBox>
+                    <Label text="Flight Search Content"/>
+                    <!-- Add your flight search components here -->
+                </VBox>
+            </Tab>
+            <Tab text="Hotels">
+                <VBox>
+                    <Label text="Hotel Search Content"/>
+                    <!-- Add your hotel search components here -->
+                </VBox>
+            </Tab>
+            <Tab text="Daytrips">
+                <VBox>
+                    <Label text="Daytrip Search Content"/>
+                    <!-- Add your daytrip search components here -->
+                </VBox>
+            </Tab>
+        </tabs>
+    </TabPane>
+    
+    <HBox spacing="10" alignment="CENTER">
+        <TextField promptText="Search..." style="-fx-pref-width: 300;"/>
+        <Button text="Search" style="-fx-background-color: #4b6cb7; -fx-text-fill: white;"/>
+    </HBox>
+</VBox>
