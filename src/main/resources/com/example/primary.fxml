@@ -1,24 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.shape.Circle?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.PrimaryController">
-   <children>
-			<Button text="create user" onAction="#handleCreateUser"/>
-			<Button text="list users" onAction="#handleListUsers"/>
-			<Button text="add daytrip" onAction="#handleAddDaytrip"/>
-			<Button text="book" onAction="#handleBook"/>
-			<Button text="review" onAction="#handleReview"/>
-			<Button text="list reviews" onAction="#handleListReviews"/>
-			<Button text="list bookings" onAction="#handleListBookings"/>
-			<Button text="list daytrips" onAction="#handleListDaytrips"/>
-			<Button text="list user props" onAction="#handleUserProperties"/>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
+<VBox xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.example.PrimaryController" 
+      style="-fx-background-color: linear-gradient(to bottom, #f5f7fa, #c3cfe2);">
+    
+    <StackPane style="-fx-background-color: #4b6cb7; -fx-padding: 20;">
+        <Label text="DayTrip Planner" style="-fx-text-fill: white; -fx-font-weight: bold;">
+            <font>
+                <Font name="System Bold" size="28.0" />
+            </font>
+            <effect>
+                <DropShadow color="#2a3f76" radius="5" spread="0.3" />
+            </effect>
+        </Label>
+    </StackPane>
+    
+    <VBox spacing="20" alignment="CENTER" style="-fx-padding: 30;">
+
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="180" prefWidth="180" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="180" prefWidth="180" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="180" prefWidth="180" />
+            </columnConstraints>
+            
+            <Button text="Plan New Trip" onAction="#handleAddDaytrip" style="-fx-background-color: #4b6cb7; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <padding>
+                    <Insets top="12" right="15" bottom="12" left="15" />
+                </padding>
+            </Button>
+            
+            <Button text="My Bookings" onAction="#handleListBookings" style="-fx-background-color: #3a7bd5; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <padding>
+                    <Insets top="12" right="15" bottom="12" left="15" />
+                </padding>
+            </Button>
+            
+            <Button text="Browse Trips" onAction="#handleListDaytrips" style="-fx-background-color: #00d2ff; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <padding>
+                    <Insets top="12" right="15" bottom="12" left="15" />
+                </padding>
+            </Button>
+            
+            <Button text="Write Review" onAction="#handleReview" style="-fx-background-color: #a8c0ff; -fx-text-fill: #2a3f76; -fx-font-weight: bold; -fx-background-radius: 8;" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                <padding>
+                    <Insets top="12" right="15" bottom="12" left="15" />
+                </padding>
+            </Button>
+            
+            <Button text="Trip Ideas" onAction="#handleListReviews" style="-fx-background-color: #a8c0ff; -fx-text-fill: #2a3f76; -fx-font-weight: bold; -fx-background-radius: 8;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <padding>
+                    <Insets top="12" right="15" bottom="12" left="15" />
+                </padding>
+            </Button>
+            
+            <Button text="My Profile" onAction="#handleUserProperties" style="-fx-background-color: #a8c0ff; -fx-text-fill: #2a3f76; -fx-font-weight: bold; -fx-background-radius: 8;" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <padding>
+                    <Insets top="12" right="15" bottom="12" left="15" />
+                </padding>
+            </Button>
+        </GridPane>
+        
+        <VBox spacing="10" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+            <Label text="Recent Activities" style="-fx-text-fill: #2a3f76; -fx-font-weight: bold;">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Separator style="-fx-background-color: #e0e0e0;" />
+            
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Circle radius="5" fill="#4b6cb7" />
+                <Label text="You booked 'Mountain Hike Adventure' for tomorrow" style="-fx-text-fill: #555;" />
+            </HBox>
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Circle radius="5" fill="#00d2ff" />
+                <Label text="New trip 'City Food Tour' available" style="-fx-text-fill: #555;" />
+            </HBox>
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Circle radius="5" fill="#a8c0ff" />
+                <Label text="3 new reviews for your recent trips" style="-fx-text-fill: #555;" />
+            </HBox>
+        </VBox>
+    </VBox>
+    
+    <HBox alignment="CENTER" style="-fx-background-color: #2a3f76; -fx-padding: 10;">
+        <Label text="Nafn af forritinu" style="-fx-text-fill: white; -fx-font-size: 12;" />
+    </HBox>
 </VBox>

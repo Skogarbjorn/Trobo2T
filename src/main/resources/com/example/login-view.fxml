@@ -3,22 +3,46 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.DropShadow?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="156.0" prefWidth="329.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-  <header>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
-      <Label text="Please input your name" />
-  </header>
-  <content>
-    <HBox minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" spacing="20.0">
-         <children>
-             <Label text="Name:" />
-             <TextField fx:id="fxUsernameInput"/>
-         </children></HBox>
-  </content>
-    <ButtonType buttonData="OK_DONE" text="Sign in" />
-    <ButtonType buttonData="CANCEL_CLOSE" text="Cancel" />
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
+<DialogPane xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="login.LoginDialog">
+    <style>
+        -fx-background-color: linear-gradient(to bottom, #f5f7fa, #c3cfe2);
+        -fx-padding: 15;
+    </style>
+    
+    <header>
+        <StackPane style="-fx-background-color: #4b6cb7; -fx-padding: 15;">
+            <Label text="Welcome to DayTrip Planner">
+                <style>
+                    -fx-text-fill: white;
+                    -fx-font-weight: bold;
+                    -fx-font-size: 18;
+                </style>
+                <effect>
+                    <DropShadow color="#2a3f76" radius="3" spread="0.3" />
+                </effect>
+            </Label>
+        </StackPane>
+    </header>
+    
+    <content>
+        <VBox spacing="20" style="-fx-padding: 20;">
+            <Label text="Please enter your name to continue:" style="-fx-text-fill: #2a3f76; -fx-font-size: 14;"/>
+            
+            <HBox spacing="15" alignment="CENTER_LEFT">
+                <Label text="Name:" style="-fx-text-fill: #2a3f76; -fx-font-weight: bold;"/>
+                <TextField fx:id="fxUsernameInput" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #a8c0ff; -fx-pref-width: 250;"/>
+            </HBox>
+            
+            <Label text="We'll use this to personalize your experience" style="-fx-text-fill: #555; -fx-font-size: 12; -fx-font-style: italic;"/>
+        </VBox>
+    </content>
+    
+    <buttonTypes>
+        <ButtonType text="Sign In" buttonData="OK_DONE" />
+        <ButtonType text="Cancel" buttonData="CANCEL_CLOSE" />
+    </buttonTypes>
 </DialogPane>
