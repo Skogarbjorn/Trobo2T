@@ -22,6 +22,7 @@ public class TravelAppController {
     @FXML private TabPane tabPane;
     @FXML private TextField searchField;
 		@FXML private Button nextButton;
+		@FXML private Button confirmButton;
 		@FXML private ListView<Hotel> hotelList;
 		@FXML private ListView<Daytrip> daytripList;
 
@@ -31,12 +32,11 @@ public class TravelAppController {
 		private Daytrips daytrips;
 
 		private Filter filter;
-
-		private Hotel selectedHotel;
-		private Daytrip selectedDaytrip;
     
 		@FXML
 		void initialize() {
+			confirmButton.setDisable(true);
+
 			// Adds a listener to the TabPane to check for changes to which tab is selected
 			// dont ask why this seems not to be possible in fxml code
 			tabPane.getSelectionModel().selectedIndexProperty().addListener(
@@ -47,6 +47,15 @@ public class TravelAppController {
 						}
 					}
 			);
+
+			hotelList.getSelectionModel().selectedItemProperty().addListener(
+					(obs, o, n) -> {
+						updateCheckoutButton();
+					});
+			daytripList.getSelectionModel().selectedItemProperty().addListener(
+					(obs, o, n) -> {
+						updateCheckoutButton();
+					});
 
 			hotelRepo = new HotelRepo();
 			daytrips = new Daytrips();
@@ -82,26 +91,41 @@ public class TravelAppController {
 		}
 
 		private void populate() {
+			if (
+					daytripList.getItems().isEmpty() ||
+					daytripList.getSelectionModel().getSelectedItem() == null ||
+					hotelList.getItems().isEmpty() ||
+					hotelList.getSelectionModel().getSelectedItem() == null
+					) {
+				nextButton.setDisable(true);
+			} else {
+				nextButton.setDisable(false);
+			}
+
 			switch (state) {
 				case 0:
-					nextButton.setText("Next");
+					nextButton.setDisable(false);
 					break;
 				case 1:
-					nextButton.setText("Next");
+					nextButton.setDisable(false);
 					hotelList.setVisible(true);
 
-					ObservableList<Hotel> hotelObsList = FXCollections.observableList(hotelRepo.searchHotels("Reykjavik"));
-					hotelList.setItems(hotelObsList);
-					hotelList.setCellFactory(listView -> new HotelCell());
+					if (hotelList.getItems().isEmpty()) {
+						ObservableList<Hotel> hotelObsList = FXCollections.observableList(hotelRepo.searchHotels("Reykjavik"));
+						hotelList.setItems(hotelObsList);
+						hotelList.setCellFactory(listView -> new HotelCell());
+					}
 
 					break;
 				case 2:
-					nextButton.setText("Confirm and checkout");
+					nextButton.setDisable(true);
 					daytripList.setVisible(true);
 
-					ObservableList<Daytrip> daytripObsList = FXCollections.observableList(daytrips.fetchDaytrips());
-					daytripList.setItems(daytripObsList);
-					daytripList.setCellFactory(listView -> new DaytripCell());
+					if (daytripList.getItems().isEmpty()) {
+						ObservableList<Daytrip> daytripObsList = FXCollections.observableList(daytrips.fetchDaytrips());
+						daytripList.setItems(daytripObsList);
+						daytripList.setCellFactory(listView -> new DaytripCell());
+					}
 
 					break;
 			}
@@ -118,17 +142,25 @@ public class TravelAppController {
 		}
 
 		@FXML
-		public void handleNextTabOrConfirm() {
-			if (tabPane.getSelectionModel().getSelectedIndex() == 2) {
-				confirm();
-				return;
-			}
+		public void handleNextTab() {
 			tabPane.getSelectionModel().selectNext();
 		}
 
-		private void confirm() {
+		@FXML
+		private void handleConfirm() {
 			System.out.println("booking confirmed");
 			System.out.println(daytripList.getSelectionModel().getSelectedItem());
 			System.out.println(hotelList.getSelectionModel().getSelectedItem());
+		}
+
+		private void updateCheckoutButton() {
+			if (
+					daytripList.getSelectionModel().getSelectedItem() != null &&
+					hotelList.getSelectionModel().getSelectedItem() != null
+			 ) {
+				confirmButton.setDisable(false);
+		 } else {
+			 confirmButton.setDisable(true);
+		 }
 		}
 }
