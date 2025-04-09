@@ -7,7 +7,7 @@
       fx:controller="com.example.TravelAppController" 
       style="-fx-padding: 20; -fx-spacing: 10;">
     
-    <TabPane>
+    <TabPane fx:id="tabPane">
         <tabs>
             <Tab text="Flights">
                 <VBox>
@@ -30,8 +30,12 @@
         </tabs>
     </TabPane>
     
-    <HBox spacing="10" alignment="CENTER">
+		<HBox spacing="10" alignment="CENTER" fx:id="contentField">
         <TextField promptText="Search..." style="-fx-pref-width: 300;"/>
-        <Button text="Search" style="-fx-background-color: #4b6cb7; -fx-text-fill: white;"/>
+        <Button text="Search" style="-fx-background-color: #4b6cb7; -fx-text-fill: white;" onAction="#handleSearch"/>
     </HBox>
+
+		<HBox>
+			<ListView fx:id="hotelList" />
+		</HBox>
 </VBox>
