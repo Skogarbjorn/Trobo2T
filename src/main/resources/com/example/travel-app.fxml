@@ -30,9 +30,17 @@
     </TabPane>
 
     <HBox spacing="10" alignment="CENTER" fx:id="contentField">
-			  <Label text="Flight filters: " />
-        <TextField promptText="Destination" style="-fx-pref-width: 300;" fx:id="" />
-        <Button text="Search" style="-fx-background-color: #4b6cb7; -fx-text-fill: white;" onAction="#handleSearch"/>
+			  <Label text="Flight filters:" />
+        <TextField promptText="Destination" style="-fx-pref-width: 300;" fx:id="flightDestinationFilter" />
+				<DatePicker fx:id="flightDateFilter" />
+
+				<Label text="Hotel filters:" />
+				<TextField promptText="Which Hotel?" fx:id="hotelHotelFilter" />
+				<TextField promptText="Where?" fx:id="hotelLocationFilter" />
+
+				<Label text="Daytrip filters:" />
+				<DatePicker fx:id="daytripDateFilter" />
+				<TextField promptText="Where?" fx:id="daytripLocationFilter" />
     </HBox>
 
     <StackPane>

@@ -3,6 +3,7 @@ module com.example {
     requires javafx.fxml;
 	requires javafx.base;
 		requires transitive java.sql;
+		requires org.apache.commons.text;
 
     opens com.example to javafx.fxml;
 		opens com.example.Services.Hotels to javafx.fxml;

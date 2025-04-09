@@ -13,10 +13,13 @@ import com.example.Services.Flights.*;
 import group2H.BookingRepo;
 import group2H.Hotel;
 import group2H.HotelRepo;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
@@ -25,8 +28,19 @@ import daytrips.Daytrips;
 import group2F.FlightService;
 import daytrips.Daytrip;
 import group2F.*;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 
 public class TravelAppController {
+	  //FILTERS
+		@FXML private TextField flightDestinationFilter;
+		@FXML private DatePicker flightDateFilter;
+
+		@FXML private TextField hotelHotelFilter;
+		@FXML private TextField hotelLocationFilter;
+
+		@FXML private DatePicker daytripDateFilter;
+		@FXML private TextField daytripLocationFilter;
+
 	  @FXML private HBox contentField;
     @FXML private TabPane tabPane;
     @FXML private TextField searchField;
@@ -35,6 +49,12 @@ public class TravelAppController {
 		@FXML private ListView<Hotel> hotelList;
 		@FXML private ListView<Daytrip> daytripList;
 		@FXML private ListView<Flight> flightList;
+		private       ObservableList<Flight> flightObsList = FXCollections.observableList(new ArrayList<>());
+		private       ObservableList<Hotel> hotelObsList = FXCollections.observableList(new ArrayList<>());
+		private       ObservableList<Daytrip> daytripObsList = FXCollections.observableList(new ArrayList<>());
+		private       FilteredList<Flight> filteredFlights = new FilteredList<>(flightObsList, flight -> true);
+		private       FilteredList<Hotel> filteredHotels = new FilteredList<>(hotelObsList, hotel -> true);
+		private       FilteredList<Daytrip> filteredDaytrips = new FilteredList<>(daytripObsList, daytrip -> true);
 
 		private int state = 0;
 
@@ -52,6 +72,69 @@ public class TravelAppController {
 		@FXML
 		void initialize() {
 			confirmButton.setDisable(true);
+
+			// Filtering logic
+			filteredFlights.predicateProperty().bind(Bindings.createObjectBinding(() -> service -> {
+				boolean location;
+				String search = flightDestinationFilter.getText();
+				if (search.isEmpty()) {
+					location = true;
+				} else {
+					double res = calculateSimilarity(service.getDestination().toLowerCase(), search);
+					location = res > 20.0;
+				}
+				boolean date;
+				LocalDate datePicked = flightDateFilter.getValue();
+				if (datePicked == null) {
+					date = true;
+				} else {
+					date = datePicked.toString().equals(service.getDate());
+					System.out.println(datePicked.toString());
+					System.out.println(service.getDate());
+				}
+
+				return location && date;
+			}, flightDestinationFilter.textProperty(), flightDateFilter.valueProperty()));
+			filteredHotels.predicateProperty().bind(Bindings.createObjectBinding(() -> service -> {
+				boolean hotel;
+				String search = hotelHotelFilter.getText();
+				if (search.isEmpty()) {
+					hotel = true;
+				} else {
+					double res = calculateSimilarity(service.getLocation().toLowerCase(), search);
+					hotel = res > 20.0;
+				}
+				boolean location;
+				String locationSearch = hotelLocationFilter.getText();
+				if (locationSearch.isEmpty()) {
+					location = true;
+				} else {
+					double res = calculateSimilarity(service.getLocation().toLowerCase(), locationSearch.toLowerCase());
+					location = res > 20.0;
+				}
+
+				return location && hotel;
+			}, hotelHotelFilter.textProperty(), hotelLocationFilter.textProperty()));
+			filteredDaytrips.predicateProperty().bind(Bindings.createObjectBinding(() -> service -> {
+				boolean date;
+				LocalDate datePicked = daytripDateFilter.getValue();
+				if (datePicked == null) {
+					date = true;
+				} else {
+					date = datePicked.toString().equals(service.day.toString());
+					System.out.println(datePicked.toString());
+					System.out.println(service.day.toString());
+				}
+				boolean location;
+				String locationSearch = daytripLocationFilter.getText();
+				if (locationSearch.isEmpty()) {
+					location = true;
+				} else {
+					double res = calculateSimilarity(service.location.toLowerCase(), locationSearch.toLowerCase());
+					location = res > 20.0;
+				}
+				return location && date;
+			}, daytripLocationFilter.textProperty(), daytripDateFilter.valueProperty()));
 
 			tabPane.getSelectionModel().selectedIndexProperty().addListener(
 					(observable, oldTab, newTab) -> {
@@ -135,12 +218,11 @@ public class TravelAppController {
 					flightList.setVisible(true);
 
 					if (flightList.getItems().isEmpty()) {
-						ObservableList<Flight> flightObsList = FXCollections.observableList(new ArrayList<>());
 						Flight[] flightArray = flightService.getFlights();
 						for (int i = 0; i < flightArray.length; i++) {
 							flightObsList.add(flightArray[i]);
 						}
-						flightList.setItems(flightObsList);
+						flightList.setItems(filteredFlights);
 						flightList.setCellFactory(listView -> new FlightCell());
 					}
 
@@ -150,8 +232,8 @@ public class TravelAppController {
 					hotelList.setVisible(true);
 
 					if (hotelList.getItems().isEmpty()) {
-						ObservableList<Hotel> hotelObsList = FXCollections.observableList(hotelRepo.searchHotels("Reykjavik"));
-						hotelList.setItems(hotelObsList);
+						hotelObsList.setAll(hotelRepo.searchHotels());
+						hotelList.setItems(filteredHotels);
 						hotelList.setCellFactory(listView -> new HotelCell(controllerMap));
 					}
 
@@ -161,8 +243,8 @@ public class TravelAppController {
 					daytripList.setVisible(true);
 
 					if (daytripList.getItems().isEmpty()) {
-						ObservableList<Daytrip> daytripObsList = FXCollections.observableList(daytrips.fetchDaytrips());
-						daytripList.setItems(daytripObsList);
+						daytripObsList.setAll(daytrips.fetchDaytrips());
+						daytripList.setItems(filteredDaytrips);
 						daytripList.setCellFactory(listView -> new DaytripCell());
 					}
 
@@ -219,5 +301,14 @@ public class TravelAppController {
 		 } else {
 			 confirmButton.setDisable(true);
 		 }
+		}
+
+		private double calculateSimilarity(String u, String v) {
+			LevenshteinDistance leven = LevenshteinDistance.getDefaultInstance();
+
+			int distance = leven.apply(u, v);
+			int maxLength = Math.max(u.length(), v.length());
+
+			return maxLength > 0 ? (1 - (double)distance/maxLength) * 100 : 100;
 		}
 }
