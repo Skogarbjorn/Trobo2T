@@ -1,9 +1,11 @@
 package com.example;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import com.example.Services.Daytrips.DaytripCell;
 import com.example.Services.Hotels.HotelCell;
+import com.example.Services.Flights.FlightCell;
 import group2H.Hotel;
 import group2H.HotelRepo;
 import javafx.collections.FXCollections;
@@ -15,7 +17,9 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import daytrips.Daytrips;
+import group2F.FlightService;
 import daytrips.Daytrip;
+import group2F.*;
 
 public class TravelAppController {
 	  @FXML private HBox contentField;
@@ -25,11 +29,13 @@ public class TravelAppController {
 		@FXML private Button confirmButton;
 		@FXML private ListView<Hotel> hotelList;
 		@FXML private ListView<Daytrip> daytripList;
+		@FXML private ListView<Flight> flightList;
 
-		private int state;
+		private int state = 0;
 
 		private HotelRepo hotelRepo;
 		private Daytrips daytrips;
+		private FlightService flightService;
 
 		private Filter filter;
     
@@ -56,14 +62,21 @@ public class TravelAppController {
 					(obs, o, n) -> {
 						updateCheckoutButton();
 					});
+			flightList.getSelectionModel().selectedItemProperty().addListener(
+					(obs, o, n) -> {
+						updateCheckoutButton();
+					});
 
 			hotelRepo = new HotelRepo();
 			daytrips = new Daytrips();
+			flightService = new FlightService();
 
 			filter = new Filter();
 			contentField.getChildren().add(filter.getView());
 
 			populateDaytrips();
+			populateFlights();
+			populate();
 		}
 
 		@FXML
@@ -79,6 +92,7 @@ public class TravelAppController {
 		public void hideOldTab(Number tab) {
 			switch ((int) tab) {
 				case 0:
+					flightList.setVisible(false);
 					break;
 				case 1:
 					hotelList.setVisible(false);
@@ -95,7 +109,9 @@ public class TravelAppController {
 					daytripList.getItems().isEmpty() ||
 					daytripList.getSelectionModel().getSelectedItem() == null ||
 					hotelList.getItems().isEmpty() ||
-					hotelList.getSelectionModel().getSelectedItem() == null
+					hotelList.getSelectionModel().getSelectedItem() == null ||
+					flightList.getItems().isEmpty() ||
+					flightList.getSelectionModel().getSelectedItem() == null
 					) {
 				nextButton.setDisable(true);
 			} else {
@@ -105,6 +121,18 @@ public class TravelAppController {
 			switch (state) {
 				case 0:
 					nextButton.setDisable(false);
+					flightList.setVisible(true);
+
+					if (flightList.getItems().isEmpty()) {
+						ObservableList<Flight> flightObsList = FXCollections.observableList(new ArrayList<>());
+						Flight[] flightArray = flightService.getFlights();
+						for (int i = 0; i < flightArray.length; i++) {
+							flightObsList.add(flightArray[i]);
+						}
+						flightList.setItems(flightObsList);
+						flightList.setCellFactory(listView -> new FlightCell());
+					}
+
 					break;
 				case 1:
 					nextButton.setDisable(false);
@@ -140,6 +168,9 @@ public class TravelAppController {
 			daytrips.addDaytrip(two);
 			daytrips.addDaytrip(three);
 		}
+		private void populateFlights() {
+			System.out.println("ran once");
+		}
 
 		@FXML
 		public void handleNextTab() {
@@ -151,11 +182,13 @@ public class TravelAppController {
 			System.out.println("booking confirmed");
 			System.out.println(daytripList.getSelectionModel().getSelectedItem());
 			System.out.println(hotelList.getSelectionModel().getSelectedItem());
+			System.out.println(flightList.getSelectionModel().getSelectedItem());
 		}
 
 		private void updateCheckoutButton() {
 			if (
 					daytripList.getSelectionModel().getSelectedItem() != null &&
+					flightList.getSelectionModel().getSelectedItem() != null &&
 					hotelList.getSelectionModel().getSelectedItem() != null
 			 ) {
 				confirmButton.setDisable(false);

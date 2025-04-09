@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<HBox fx:id="root" alignment="CENTER_LEFT"
+      style="-fx-pref-height: 80; -fx-padding: 10px: 10; -fx-spacing: 15; -fx-background-color: #f0f0f0; -fx-border-color: #cccccc; -fx-border-width: 1; -fx-border-radius: 20px: 5; -fx-background-radius: 5; : 20;"
+      xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.Services.Flights.FlightController">
+    <Label fx:id="date" style="-fx-padding: 10 15; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;
+            -fx-pref-width: 180; -fx-max-width: 180; -fx-min-width: 180;
+            -fx-text-overrun: word-ellipsis;"/>
+  <Label fx:id="departureLocation"
+         style="-fx-padding: 10 15; -fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333333;
+            -fx-pref-width: 180; -fx-max-width: 180; -fx-min-width: 180;
+            -fx-text-overrun: word-ellipsis;"
+         text="placeholder"/>
+  <Label fx:id="destination" style="-fx-padding: 10 5; -fx-font-size: 14px; -fx-text-fill: #666666;
+            -fx-pref-width: 80; -fx-max-width: 80; -fx-min-width: 80; -fx-text-overrun: word-ellipsis;"/>
+  <Label fx:id="availableSeats" style="-fx-padding: 10 5;-fx-font-size: 14px; -fx-text-fill: #ff9900;
+            -fx-pref-width: 50; -fx-max-width: 50; -fx-min-width: 50; -fx-text-overrun: word-ellipsis;"/>
+  <Label fx:id="status"
+         style="-fx-padding: 10 15;-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #009900;"/>
+</HBox>
