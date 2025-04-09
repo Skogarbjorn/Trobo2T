@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" fx:id="root"
+      style="-fx-padding: 20; -fx-spacing: 10;" fx:controller="com.example.Services.Daytrips.DaytripController">
+  <Label fx:id="dayLabel"/>
+  <Label fx:id="descriptionLabel"/>
+  <Label fx:id="locationLabel"/>
+  <Label fx:id="availabilityLabel"/>
+</HBox>

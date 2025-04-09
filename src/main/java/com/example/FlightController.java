@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import lib.SearchResultWrapper;
 
-public class FlightController implements Service {
+public class FlightController {
 
 	public ArrayList<SearchResultWrapper> search(HashMap<String, String> filter) {
 		return new ArrayList<>();

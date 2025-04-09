@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import daytrips.Daytrips;
 import daytrips.Daytrip;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

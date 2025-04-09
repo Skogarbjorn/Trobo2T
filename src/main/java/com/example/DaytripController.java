@@ -2,13 +2,13 @@ package com.example;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import daytrips.Daytrip;
 import daytrips.Daytrips;
+import daytrips.Daytrip;
 import javafx.util.Pair;
 import lib.SearchResultWrapper;
 import java.util.stream.Collectors;
 
-public class DaytripController implements Service {
+public class DaytripController {
 	private Daytrips daytrips;
 
 	public ArrayList<SearchResultWrapper> searchAll() {

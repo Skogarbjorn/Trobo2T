@@ -1,32 +1,39 @@
 package com.example;
 
-import com.example.Services.Hotels.HotelCell;
+import java.sql.Date;
 
+import com.example.Services.Daytrips.DaytripCell;
+import com.example.Services.Hotels.HotelCell;
 import group2H.Hotel;
 import group2H.HotelRepo;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.ListCell;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import daytrips.Daytrips;
+import daytrips.Daytrip;
 
 public class TravelAppController {
 	  @FXML private HBox contentField;
     @FXML private TabPane tabPane;
     @FXML private TextField searchField;
+		@FXML private Button nextButton;
 		@FXML private ListView<Hotel> hotelList;
+		@FXML private ListView<Daytrip> daytripList;
 
 		private int state;
 
 		private HotelRepo hotelRepo;
+		private Daytrips daytrips;
 
 		private Filter filter;
+
+		private Hotel selectedHotel;
+		private Daytrip selectedDaytrip;
     
 		@FXML
 		void initialize() {
@@ -35,20 +42,19 @@ public class TravelAppController {
 			tabPane.getSelectionModel().selectedIndexProperty().addListener(
 					(observable, oldTab, newTab) -> {
 						if (newTab != null) {
+							hideOldTab(oldTab);
 							handleTabChange(newTab);
 						}
 					}
 			);
 
 			hotelRepo = new HotelRepo();
-
-			hotelList.getSelectionModel().selectedItemProperty().addListener(
-					(observable, oldthing, newthing) -> {
-						System.out.println(newthing.getName());
-			});
+			daytrips = new Daytrips();
 
 			filter = new Filter();
 			contentField.getChildren().add(filter.getView());
+
+			populateDaytrips();
 		}
 
 		@FXML
@@ -61,19 +67,68 @@ public class TravelAppController {
 			populate();
 		}
 
-		private void populate() {
-			switch (state) {
+		public void hideOldTab(Number tab) {
+			switch ((int) tab) {
 				case 0:
 					break;
 				case 1:
-					ObservableList<Hotel> observableList = FXCollections.observableList(hotelRepo.searchHotels("Reykjavik"));
-					observableList.forEach(thing -> System.out.println(thing));
-					hotelList.setItems(observableList);
+					hotelList.setVisible(false);
+					break;
+				case 2:
+					daytripList.setVisible(false);
+				default:
+					break;
+			}
+		}
+
+		private void populate() {
+			switch (state) {
+				case 0:
+					nextButton.setText("Next");
+					break;
+				case 1:
+					nextButton.setText("Next");
+					hotelList.setVisible(true);
+
+					ObservableList<Hotel> hotelObsList = FXCollections.observableList(hotelRepo.searchHotels("Reykjavik"));
+					hotelList.setItems(hotelObsList);
 					hotelList.setCellFactory(listView -> new HotelCell());
 
 					break;
 				case 2:
+					nextButton.setText("Confirm and checkout");
+					daytripList.setVisible(true);
+
+					ObservableList<Daytrip> daytripObsList = FXCollections.observableList(daytrips.fetchDaytrips());
+					daytripList.setItems(daytripObsList);
+					daytripList.setCellFactory(listView -> new DaytripCell());
+
 					break;
 			}
+		}
+
+		private void populateDaytrips() {
+			Daytrip one = new Daytrip(new Date(System.currentTimeMillis()), "very fun right now", "HÍ", 20);
+			Daytrip two = new Daytrip(new Date(System.currentTimeMillis() + 10000), "zoo", "Reykjavik", 100);
+			Daytrip three = new Daytrip(new Date(System.currentTimeMillis() + 100000), "sightseeing", "Greenland", 15);
+
+			daytrips.addDaytrip(one);
+			daytrips.addDaytrip(two);
+			daytrips.addDaytrip(three);
+		}
+
+		@FXML
+		public void handleNextTabOrConfirm() {
+			if (tabPane.getSelectionModel().getSelectedIndex() == 2) {
+				confirm();
+				return;
+			}
+			tabPane.getSelectionModel().selectNext();
+		}
+
+		private void confirm() {
+			System.out.println("booking confirmed");
+			System.out.println(daytripList.getSelectionModel().getSelectedItem());
+			System.out.println(hotelList.getSelectionModel().getSelectedItem());
 		}
 }

@@ -36,6 +36,12 @@
     </HBox>
 
 		<HBox>
-			<ListView fx:id="hotelList" />
+			<ListView fx:id="flightList" visible="false" />
+			<ListView fx:id="hotelList" visible="false" />
+			<ListView fx:id="daytripList" visible="false" />
+		</HBox>
+
+		<HBox>
+			<Button onAction="#handleNextTabOrConfirm" text="Next" fx:id="nextButton"/>
 		</HBox>
 </VBox>

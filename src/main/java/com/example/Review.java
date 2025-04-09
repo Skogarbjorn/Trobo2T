@@ -1,5 +1,6 @@
 package com.example;
 
+import daytrips.Daytrips;
 import daytrips.Daytrip;
 
 public class Review {

@@ -1,6 +1,8 @@
 package group2H;
 
-public class Hotel {
+import com.example.Services.Service;
+
+public class Hotel extends Service {
     public int id;
     public String name;
     public String location;
