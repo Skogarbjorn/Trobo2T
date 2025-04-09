@@ -1,7 +1,7 @@
 package group2F;
 
 public class FlightService {
-    private String flightDbPath = "src\\main\\java\\group2F\\SQL\\flights.db";
+		private String flightDbPath = "src/main/java/group2F/SQL/flights.db";
     private FlightRepo flightRepo = new SQLiteFlightRepo(flightDbPath);
 
     public FlightService(FlightRepo flightRepo) {

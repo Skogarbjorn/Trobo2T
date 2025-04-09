@@ -16,4 +16,8 @@ public class Booking {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
     }
+
+		public String toString() {
+			return "HotelId: " + hotelId + ", Hotel Name: " + hotelName + ", Number of guests: " + guests + ", Check in: " + checkIn + ", Check out: " + checkOut;
+		}
 }

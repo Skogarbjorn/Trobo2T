@@ -33,4 +33,8 @@ public class DaytripCell extends ListCell<Daytrip> {
             setGraphic(controller.getRoot());  
         }
     }
+
+		public DaytripController getController() {
+			return controller;
+		}
 }

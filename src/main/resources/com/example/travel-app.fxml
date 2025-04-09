@@ -30,7 +30,8 @@
     </TabPane>
 
     <HBox spacing="10" alignment="CENTER" fx:id="contentField">
-        <TextField promptText="Search..." style="-fx-pref-width: 300;"/>
+			  <Label text="Flight filters: " />
+        <TextField promptText="Destination" style="-fx-pref-width: 300;" fx:id="" />
         <Button text="Search" style="-fx-background-color: #4b6cb7; -fx-text-fill: white;" onAction="#handleSearch"/>
     </HBox>
 

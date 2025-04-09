@@ -33,4 +33,8 @@ public class FlightCell extends ListCell<Flight> {
             setGraphic(controller.getRoot());  
         }
     }
+
+		public FlightController getController() {
+			return controller;
+		}
 }

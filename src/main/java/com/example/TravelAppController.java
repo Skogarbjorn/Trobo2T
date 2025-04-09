@@ -1,11 +1,14 @@
 package com.example;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.example.Services.Daytrips.DaytripCell;
-import com.example.Services.Hotels.HotelCell;
-import com.example.Services.Flights.FlightCell;
+import com.example.Services.Daytrips.*;
+import com.example.Services.Hotels.*;
+import com.example.Services.Flights.*;
 
 import group2H.BookingRepo;
 import group2H.Hotel;
@@ -43,6 +46,8 @@ public class TravelAppController {
 		private BookingRepo hotelBookingRepo;
 
 		private Filter filter;
+
+		private Map<Hotel, HotelController> controllerMap = new HashMap<>();
     
 		@FXML
 		void initialize() {
@@ -147,7 +152,7 @@ public class TravelAppController {
 					if (hotelList.getItems().isEmpty()) {
 						ObservableList<Hotel> hotelObsList = FXCollections.observableList(hotelRepo.searchHotels("Reykjavik"));
 						hotelList.setItems(hotelObsList);
-						hotelList.setCellFactory(listView -> new HotelCell());
+						hotelList.setCellFactory(listView -> new HotelCell(controllerMap));
 					}
 
 					break;
@@ -185,12 +190,23 @@ public class TravelAppController {
 
 		@FXML
 		private void handleConfirm() {
-			System.out.println("booking confirmed");
-			System.out.println(daytripList.getSelectionModel().getSelectedItem());
-			System.out.println(hotelList.getSelectionModel().getSelectedItem());
-			System.out.println(flightList.getSelectionModel().getSelectedItem());
+			HotelController hotelController = controllerMap.get(hotelList.getSelectionModel().getSelectedItem());
 
-			daytrips.bookUser(daytripList.getSelectionModel().getSelectedItem(), CurrentUser.user);
+			try {
+				hotelBookingRepo.createBooking(
+						hotelList.getSelectionModel().getSelectedItem().getHotelId(),
+						hotelController.getGuestNum(), 
+						hotelController.getCheckIn(),
+						hotelController.getCheckOut());
+
+				flightsBookingService.confirmBooking(CurrentUser.user.username, flightList.getSelectionModel().getSelectedItem().getFlightID());
+
+				daytrips.bookUser(daytripList.getSelectionModel().getSelectedItem(), CurrentUser.user);
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+
+			hotelBookingRepo.getAllBookings().forEach(booking -> System.out.println(booking));
 		}
 
 		private void updateCheckoutButton() {

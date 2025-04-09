@@ -1,5 +1,7 @@
 package com.example.Services.Hotels;
 
+import java.util.Map;
+
 import group2H.Hotel;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,6 +11,11 @@ public class HotelCell extends ListCell<Hotel> {
 	  private FXMLLoader loader;
     private HotelController controller;
 		private Node root;
+		private final Map<Hotel, HotelController> controllerMap;
+
+		public HotelCell(Map<Hotel, HotelController> controllerMap) {
+			this.controllerMap = controllerMap;
+		}
 
     @Override
     public void updateItem(Hotel hotel, boolean empty) {
@@ -31,6 +38,7 @@ public class HotelCell extends ListCell<Hotel> {
             }
             controller.setHotel(hotel);
             setGraphic(controller.getRoot());  
+						controllerMap.put(hotel, controller);
         }
     }
 }

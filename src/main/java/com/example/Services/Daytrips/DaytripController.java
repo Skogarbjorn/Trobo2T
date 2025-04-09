@@ -2,6 +2,7 @@ package com.example.Services.Daytrips;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import daytrips.Daytrip;
 

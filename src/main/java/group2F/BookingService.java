@@ -2,8 +2,8 @@ package group2F;
 
 // controllerinn okkar
 public class BookingService {
-    private String bookingDbPath = "src\\main\\java\\com\\myCompany\\app\\SQL\\bookings.db";
-		private String flightDbPath = "src\\main\\java\\com\\myCompany\\app\\SQL\\flights.db";
+		private String bookingDbPath = "src/main/java/group2F/SQL/bookings.db";
+		private String flightDbPath = "src/main/java/group2F/SQL/flights.db";
 
     private FlightRepo flightRepo = new SQLiteFlightRepo(flightDbPath);
     private BookingRepo bookingRepo = new SQLiteBookingRepo(bookingDbPath);
