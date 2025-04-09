@@ -1,13 +1,15 @@
 package group2F;
 
 public class FlightService {
-		private String flightDbPath = "src\\main\\java\\com\\myCompany\\app\\SQL\\flights.db";
+    private String flightDbPath = "src\\main\\java\\group2F\\SQL\\flights.db";
     private FlightRepo flightRepo = new SQLiteFlightRepo(flightDbPath);
 
     public FlightService(FlightRepo flightRepo) {
         this.flightRepo = flightRepo;
     }
-    public FlightService() {}
+
+    public FlightService() {
+    }
 
     public int getAvailableSeats(String flightID) {
         Flight flight = flightRepo.getFlightById(flightID);
@@ -37,7 +39,7 @@ public class FlightService {
         return flightRepo.getFlights(); // aetti ad na i allar current bookings i databaseinu
     }
 
-		public FlightRepo getRepo() {
-			return flightRepo;
-		}
+    public FlightRepo getRepo() {
+        return flightRepo;
+    }
 }

@@ -2,11 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<VBox xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1" 
-      fx:controller="com.example.TravelAppController" 
+<VBox xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.TravelAppController"
       style="-fx-padding: 20; -fx-spacing: 10;">
-    
+
     <TabPane fx:id="tabPane">
         <tabs>
             <Tab text="Flights">
@@ -29,20 +28,20 @@
             </Tab>
         </tabs>
     </TabPane>
-    
-		<HBox spacing="10" alignment="CENTER" fx:id="contentField">
+
+    <HBox spacing="10" alignment="CENTER" fx:id="contentField">
         <TextField promptText="Search..." style="-fx-pref-width: 300;"/>
         <Button text="Search" style="-fx-background-color: #4b6cb7; -fx-text-fill: white;" onAction="#handleSearch"/>
     </HBox>
 
-		<HBox>
-			<ListView fx:id="flightList" visible="false" />
-			<ListView fx:id="hotelList" visible="false" />
-			<ListView fx:id="daytripList" visible="false" />
-		</HBox>
+    <StackPane>
+        <ListView fx:id="flightList" visible="false"/>
+        <ListView fx:id="hotelList" visible="false"/>
+        <ListView fx:id="daytripList" visible="false"/>
+    </StackPane>
 
-		<HBox>
-			<Button onAction="#handleNextTab" text="Next" fx:id="nextButton"/>
-			<Button onAction="#handleConfirm" text="Confirm and checkout" fx:id="confirmButton"/>
-		</HBox>
+    <HBox>
+        <Button onAction="#handleNextTab" text="Next" fx:id="nextButton"/>
+        <Button onAction="#handleConfirm" text="Confirm and checkout" fx:id="confirmButton"/>
+    </HBox>
 </VBox>
