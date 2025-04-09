@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingRepo {
-
     public int countBookedbeds(int hotelId, LocalDate checkIn, LocalDate checkOut) {
         String sql = "SELECT SUM(guests) FROM bookings WHERE hotel_id = ? AND NOT (? >= check_out OR ? <= check_in)";
         try (Connection conn = DBHelper.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {

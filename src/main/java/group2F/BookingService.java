@@ -12,6 +12,8 @@ public class BookingService {
         this.bookingRepo = bookingRepo;
         this.flightRepo = flightRepo;
     }
+    public BookingService() {
+    }
 
 
     /**

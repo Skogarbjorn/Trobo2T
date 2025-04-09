@@ -28,6 +28,8 @@ public class PrimaryController {
 	private void handleCreateUser() throws IOException {
 		me = new User("gamer", "gamer@gamer.com", "sigma");
 		me.setDaytripsId(newController.createUser(me));
+
+		CurrentUser.setUser(me);
 	}
 
 	@FXML

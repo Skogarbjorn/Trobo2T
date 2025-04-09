@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import com.example.Services.Daytrips.DaytripCell;
 import com.example.Services.Hotels.HotelCell;
 import com.example.Services.Flights.FlightCell;
+
+import group2H.BookingRepo;
 import group2H.Hotel;
 import group2H.HotelRepo;
 import javafx.collections.FXCollections;
@@ -37,14 +39,15 @@ public class TravelAppController {
 		private Daytrips daytrips;
 		private FlightService flightService;
 
+		private BookingService flightsBookingService;
+		private BookingRepo hotelBookingRepo;
+
 		private Filter filter;
     
 		@FXML
 		void initialize() {
 			confirmButton.setDisable(true);
 
-			// Adds a listener to the TabPane to check for changes to which tab is selected
-			// dont ask why this seems not to be possible in fxml code
 			tabPane.getSelectionModel().selectedIndexProperty().addListener(
 					(observable, oldTab, newTab) -> {
 						if (newTab != null) {
@@ -70,6 +73,9 @@ public class TravelAppController {
 			hotelRepo = new HotelRepo();
 			daytrips = new Daytrips();
 			flightService = new FlightService();
+
+			flightsBookingService = new BookingService();
+			hotelBookingRepo = new BookingRepo();
 
 			filter = new Filter();
 			contentField.getChildren().add(filter.getView());
@@ -183,6 +189,8 @@ public class TravelAppController {
 			System.out.println(daytripList.getSelectionModel().getSelectedItem());
 			System.out.println(hotelList.getSelectionModel().getSelectedItem());
 			System.out.println(flightList.getSelectionModel().getSelectedItem());
+
+			daytrips.bookUser(daytripList.getSelectionModel().getSelectedItem(), CurrentUser.user);
 		}
 
 		private void updateCheckoutButton() {

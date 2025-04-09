@@ -15,6 +15,10 @@ public class User {
 		this.password = password;
 	}
 
+	public User getUser() {
+		return this;
+	}
+
 	public void setFlightsId(int id) {
 		this.flights_id = id;
 	}
