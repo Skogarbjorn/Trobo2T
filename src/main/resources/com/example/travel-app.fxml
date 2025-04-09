@@ -42,6 +42,7 @@
 		</HBox>
 
 		<HBox>
-			<Button onAction="#handleNextTabOrConfirm" text="Next" fx:id="nextButton"/>
+			<Button onAction="#handleNextTab" text="Next" fx:id="nextButton"/>
+			<Button onAction="#handleConfirm" text="Confirm and checkout" fx:id="confirmButton"/>
 		</HBox>
 </VBox>
