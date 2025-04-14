@@ -1,86 +1,54 @@
 package com.example;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import daytrips.Daytrips;
-import daytrips.Daytrip;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import lib.SearchResultWrapper;
+import login.LoginDialog;
+
+import java.io.IOException;
 
 public class PrimaryController {
-	private User me;
-	private DaytripController newController;
-	private Daytrip test;
-	private Review reviewTest;
-	private ArrayList<Review> reviews;
-	private HashMap<Integer, Integer> bookings;
-	private ArrayList<SearchResultWrapper> result;
-	private Pair<ArrayList<Daytrip>, ArrayList<Review>> props;
+    private User me;
+    @FXML
+    private Button travelButton;
+    private DaytripController newController;
 
-	@FXML
-	private void handleCreateUser() throws IOException {
-		me = new User("gamer", "gamer@gamer.com", "sigma");
-		me.setDaytripsId(newController.createUser(me));
+    @FXML
+    private void handleCreateUser() throws IOException {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("DayTrip Planner Login");
 
-		CurrentUser.setUser(me);
-	}
+        // 2. Load the FXML content
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/example/login-view.fxml"));
+        // 3. Set the dialog pane from FXML
+        dialog.setDialogPane(loader.load());
 
-	@FXML
-	private void handleListUsers() throws IOException {
-		ArrayList<User> users = newController.getUsers();
-		users.forEach(thing -> {
-			System.out.println("USER: " + thing);
-		});
-	}
+        // 4. Optional: Get the controller if you need to access UI elements
+        LoginDialog controller = loader.getController();
 
-	@FXML
-	private void handleAddDaytrip() {
-		test = new Daytrip(new Date(0), "sigma", "iceland", 20);
-		newController.add(test);
-	}
-
-	@FXML
-	private void handleBook() {
-		newController.book(test, me);
-	}
-
-	@FXML
-	private void handleReview() {
-		reviewTest = new Review("its ok", 6, test);
-		newController.review(reviewTest, me);
-	}
-
-	@FXML
-	private void handleListReviews() {
-		reviews = newController.getReviews();
-		reviews.forEach(thing -> {
-			System.out.println("REVIEW: " + thing);
-		});
-	}
-
-	@FXML
-	private void handleListBookings() {
-		bookings = newController.getBookings();
-		bookings.forEach((key, value) -> {
-			System.out.println("BOOKING: user - " + key + ", daytripid - " + value);
-		});
-	}
-
-	@FXML
-	private void handleListDaytrips() {
-		result = newController.searchAll();
-		result.forEach(thing -> {
-			System.out.println("DAYTRIP: " + thing);
-		});
-	}
-
+        // 5. Show the dialog and wait for response
+        dialog.showAndWait().ifPresent(response -> {
+            System.out.println(response);
+            if (response.getButtonData() == ButtonBar.ButtonData.OK_DONE) {
+                // Handle OK button click
+                me = new User("gamer", "gamer@gamer.com", "sigma");
+                CurrentUser.setUser(me);
+                travelButton.setDisable(false);
+                // If you need the username:
+                // String username = controller.getUsernameInput();
+            } else {
+                // Handle Cancel button click
+                System.out.println("User canceled");
+            }
+        });
+    }
 
     @FXML
     private void handleGoToTravelApp() {
@@ -95,19 +63,7 @@ public class PrimaryController {
         }
     }
 
-	@FXML
-	private void handleUserProperties() {
-		props = newController.getUserProperties(me);
-
-		props.getKey().forEach(thing -> {
-			System.out.println("you have ordered this: " + thing);
-		});
-		props.getValue().forEach(thing -> {
-			System.out.println("you have reviewed this: " + thing);
-		});
-	}
-
-	public void initialize() {
-		newController = new DaytripController();
-	}
+    public void initialize() {
+        newController = new DaytripController();
+    }
 }
