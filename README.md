@@ -1,3 +1,5 @@
+The presentation can be found in the "Þróun Hugbó kynning..pdf" file above ^
+
 # Cluster 2 - Integrated Product
 
 This is the final product that was presented and contains code from all the teams combined.
